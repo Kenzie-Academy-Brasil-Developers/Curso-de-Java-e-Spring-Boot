@@ -9,7 +9,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(length=92, nullable = false)
+    @Column(length = 92, nullable = false)
     private String name;
 
     @Column(length = 11, nullable = false, unique = true)
@@ -92,5 +92,18 @@ public class User {
 
     public void setBalance(float balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", type='" + type + '\'' +
+                ", balance=" + balance +
+                '}';
     }
 }
