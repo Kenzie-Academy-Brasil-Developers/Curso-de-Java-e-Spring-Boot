@@ -1,6 +1,7 @@
 package br.com.guilherme.learningspring.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "users")
@@ -24,7 +25,8 @@ public class User {
     @Column(length = 6, nullable = false)
     private String type;
 
-    @Column(columnDefinition = "DECIMAL DEFAULT 0.0")
+    @Column(columnDefinition = "DECIMAL")
+    @ColumnDefault("0")
     private float balance;
 
     public User() {

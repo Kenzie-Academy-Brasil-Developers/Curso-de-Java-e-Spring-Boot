@@ -2,86 +2,22 @@ package br.com.guilherme.learningspring.service;
 
 import br.com.guilherme.learningspring.dto.CreateDepositDto;
 import br.com.guilherme.learningspring.dto.UserDto;
-import br.com.guilherme.learningspring.exception.AppException;
 import br.com.guilherme.learningspring.model.User;
-import br.com.guilherme.learningspring.repository.UserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
+    User createUser(final UserDto userData);
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    List<User> readUsers();
 
-    private void checkEmailAndCpf(final UserDto userData) {
-        if (userRepository.existsUserByCpf(userData.getCpf())) {
-            throw new AppException("cpfAlreadyInUse", HttpStatus.CONFLICT);
-        }
+    User retrieveUser(final long id);
 
-        if (userRepository.existsUserByEmail(userData.getEmail())) {
-            throw new AppException("emailAlreadyInUse", HttpStatus.CONFLICT);
-        }
-    }
+    User updateUser(final UserDto userData, final long id);
 
-    public User createUser(final UserDto userData) {
+    void deleteUser(final long id);
 
-        checkEmailAndCpf(userData);
+    User createDeposit(final CreateDepositDto depositData, final long id);
 
-        final User newUser = new User(userData.getName(), userData.getCpf(), userData.getEmail(), userData.getPassword(), userData.getType());
-
-        return userRepository.save(newUser);
-
-    }
-
-    public List<User> readUsers() {
-        return userRepository.findAll();
-    }
-
-    public User retrieveUser(final long id) {
-
-        return userRepository.findById(id).orElseThrow(() -> new AppException("userNotFound", HttpStatus.NOT_FOUND));
-
-    }
-
-    public User updateUser(final UserDto userData, final long id) {
-
-        checkEmailAndCpf(userData);
-
-        final User foundUser = userRepository.findById(id).orElseThrow(() -> new AppException("userNotFound", HttpStatus.NOT_FOUND));
-
-        foundUser.setName(userData.getName());
-        foundUser.setCpf(userData.getCpf());
-        foundUser.setEmail(userData.getEmail());
-        foundUser.setPassword(userData.getPassword());
-        foundUser.setType(userData.getType());
-
-        return userRepository.save(foundUser);
-
-    }
-
-    public void deleteUser(final long id) {
-
-        final User foundUser = userRepository.findById(id).orElseThrow(() -> new AppException("userNotFound", HttpStatus.NOT_FOUND));
-
-        userRepository.delete(foundUser);
-
-    }
-
-    public User createDeposit(final CreateDepositDto depositData, final long id) {
-
-        final User foundUser = userRepository.findById(id).orElseThrow(() -> new AppException("userNotFound", HttpStatus.NOT_FOUND));
-
-        final float currentBalance = foundUser.getBalance();
-
-        foundUser.setBalance(currentBalance + depositData.getValue());
-
-        return userRepository.save(foundUser);
-
-    }
 }
