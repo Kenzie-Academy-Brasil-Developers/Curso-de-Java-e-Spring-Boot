@@ -1,144 +1,89 @@
+import java.util.Scanner;
+
 public class Main {
-
-    /*
-    === CRIAÇÃO/CHAMADA DE MÉTODOS E TIPAGENS ===
-    */
-
-    // Método estático
-    static String staticShowHelloWorld() {
-        return "Hello World!";
-    }
-
-    // Método público
-    public String publicShowHelloWorld() {
-        return "Hello World!";
-    }
-
-
-    /*
-    === PARÂMETROS E RETORNO ===
-    */
-
-    static int sumNumbers(int n1, int n2) {
-        System.out.println("Método 1 chamado");
-        return n1 + n2;
-    }
-
-
-    /*
-    === METHOD OVERLOADING ===
-    */
-
-    // Mesmo método, só que com 3 parâmetros
-    static int sumNumbers(int n1, int n2, int n3) {
-        System.out.println("Método 2 chamado");
-        return n1 + n2 + n3;
-    }
-
-    // Mesmo método, só que com 1 parâmetro
-    static int sumNumbers(int n1) {
-        System.out.println("Método 3 chamado");
-        return n1;
-    }
-
-
-    /*
-    === RECURSÃO ===
-    */
-
-    static void counter(int value) {
-        System.out.println(value);
-
-        if(value <= 10) {
-            counter(value + 1);
-        } else {
-            System.out.println("ENCERREI!");
-        }
-    }
 
     public static void main(String[] args) {
         /*
-        === CRIAÇÃO/CHAMADA DE MÉTODOS E TIPAGENS ===
+        === ENCAPSULAMENTO (GET E SET) ===
         */
 
-        // Chamadas de método estático
-        System.out.println(staticShowHelloWorld()); // >> Hello World!
-        System.out.println(Main.staticShowHelloWorld()); // >> Hello World!
+        System.out.println(AnotherClass.staticRReturnHelloWorld()); // >> Hello World!
+        System.out.println(AnotherClass.staticName); // >> Juliana
 
-        // Chamada de método público
-        Main main = new Main();
-        System.out.println(main.publicShowHelloWorld()); // >> Hello World!
+        // NÃO é possível acessar um método/atributo não estático sem instanciar a classe
+        System.out.println(AnotherClass.returnHelloWorld());
+        System.out.println(AnotherClass.name);
+
+        // Instanciando uma classe
+        AnotherClass anotherClass = new AnotherClass();
+
+        // Agora é possível acessar o método/atributo não estático!
+        System.out.println(anotherClass.returnHelloWorld()); // >> Hello World!
+        System.out.println(anotherClass.name); // >> Juliana
+
+        // NÃO é possível acessar/modificar um atributo privado diretamente
+        System.out.println(anotherClass.privateName);
+        anotherClass.privateName = "Não mais Juliana";
+
+        // Por isso dos getters e setters
+        System.out.println(anotherClass.getPrivateName()); // >> Juliana
+        anotherClass.setPrivateName("Não mais Juliana");
+        System.out.println(anotherClass.getPrivateName()); // >> Não mais Juliana
+
+        // Com um construtor, agora a classe precisa ser instanciada com valores
+        AnotherClass myAnotherClass = new AnotherClass("João");
+
+        System.out.println(myAnotherClass.getPrivateName()); // >> João
+        myAnotherClass.setPrivateName("Não mais João");
+        System.out.println(myAnotherClass.getPrivateName()); // >> Não mais João
+        System.out.println(myAnotherClass.returnHelloWorld()); // >> Hello World!
 
 
         /*
-        === PARÂMETROS E RETORNO ===
+        === HERANÇA ===
         */
 
-        // Chamada de método com parâmetros
-        System.out.println(sumNumbers(1, 2)); // >> 3
+        SubClass subClass = new SubClass("Maria", 18);
+
+        System.out.println(subClass.getPrivateName()); // >> Maria
+        System.out.println(subClass.getAge()); // >> 18
+        System.out.println(subClass.returnHelloWorld()); // >> Hello World da SubClass!
 
 
         /*
-        === ESCOPOS ===
+        === ABSTRAÇÃO ===
         */
 
-        sumNumbers(1, 2);
-        // Não é possível acessar essa variável
-        System.out.println(n1);
+        // NÃO é possível instanciar uma classe abstrata!
+        AbstractClass abstractClass = new AbstractClass();
 
-        if (sumNumbers(1, 2) == 3) {
-            int numberInsideIf = 3;
-        }
-        // Não é possível acessar essa variável
-        System.out.println(numberInsideTheIf);
+        ExtendedClass extendedClass = new ExtendedClass();
 
-        int numberOutsideTheIf = 0;
-        if (sumNumbers(1, 2) == 3) {
-            numberOutsideTheIf = 3;
-        }
-        // Agora é possível acessar essa variável
-        System.out.println(numberOutsideTheIf); // >> 3
+        extendedClass.showHelloWorld(); // >> Hello World!
+        extendedClass.showOlaMundo(); // >> Olá Mundo!
 
 
         /*
-        === METHOD OVERLOADING ===
+        === INTERFACES ===
         */
 
-        // Chamando o segundo método sumNumbers
-        System.out.println(sumNumbers(1, 2, 3)); // >> 6
+        ImplementedClass implementedClass = new ImplementedClass();
 
-        // Chamando o terceiro método sumNumbers
-        System.out.println(sumNumbers(1)); // >> 1
+        implementedClass.sayMyName("Walter"); // >> Walter
+        implementedClass.notSayMyName("Walter"); // >> NO!
 
 
         /*
-        === RECURSÃO ===
+        === INPUT DE USUÁRIO ===
         */
 
-        // Começará a contagem a partir do 0
-        counter(0); // >> 0
-                          // >> 1
-                          // >> 2
-                          // >> 3
-                          // >> 4
-                          // >> 5
-                          // >> 6
-                          // >> 7
-                          // >> 8
-                          // >> 9
-                          // >> 10
-                          // >> 11
-                          // >> ENCERREI!
+        Scanner scanner = new Scanner(System.in);
 
-        // Começará a contagem a partir do 5
-        counter(5); // >> 5
-                          // >> 6
-                          // >> 7
-                          // >> 8
-                          // >> 9
-                          // >> 10
-                          // >> 11
-                          // >> ENCERREI!
+        System.out.print("Your input: ");
+        // Lerá uma String do usuário via terminal!
+        String userInput = scanner.nextLine();
+
+        System.out.print("The USER INPUT was " + userInput);
     }
 
 }
