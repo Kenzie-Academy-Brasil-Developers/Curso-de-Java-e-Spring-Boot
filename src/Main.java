@@ -1,131 +1,144 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
 public class Main {
+
+    /*
+    === CRIAÇÃO/CHAMADA DE MÉTODOS E TIPAGENS ===
+    */
+
+    // Método estático
+    static String staticShowHelloWorld() {
+        return "Hello World!";
+    }
+
+    // Método público
+    public String publicShowHelloWorld() {
+        return "Hello World!";
+    }
+
+
+    /*
+    === PARÂMETROS E RETORNO ===
+    */
+
+    static int sumNumbers(int n1, int n2) {
+        System.out.println("Método 1 chamado");
+        return n1 + n2;
+    }
+
+
+    /*
+    === METHOD OVERLOADING ===
+    */
+
+    // Mesmo método, só que com 3 parâmetros
+    static int sumNumbers(int n1, int n2, int n3) {
+        System.out.println("Método 2 chamado");
+        return n1 + n2 + n3;
+    }
+
+    // Mesmo método, só que com 1 parâmetro
+    static int sumNumbers(int n1) {
+        System.out.println("Método 3 chamado");
+        return n1;
+    }
+
+
+    /*
+    === RECURSÃO ===
+    */
+
+    static void counter(int value) {
+        System.out.println(value);
+
+        if(value <= 10) {
+            counter(value + 1);
+        } else {
+            System.out.println("ENCERREI!");
+        }
+    }
 
     public static void main(String[] args) {
         /*
-        === "CONSOLE.LOG()" E COMENTÁRIOS ===
+        === CRIAÇÃO/CHAMADA DE MÉTODOS E TIPAGENS ===
         */
 
-        // Log com quebra de linha
-        System.out.println("Hello world!"); // >> Hello world!
+        // Chamadas de método estático
+        System.out.println(staticShowHelloWorld()); // >> Hello World!
+        System.out.println(Main.staticShowHelloWorld()); // >> Hello World!
 
-        // Log sem quebra de linha
-        System.out.print("Hello world!");
-        System.out.print("Hello world!"); // >> Hello world!Hello world!
-
-        // Comentário de uma linha
-        /*
-        * Comentário de
-        * múltiplas linhas
-        * */
+        // Chamada de método público
+        Main main = new Main();
+        System.out.println(main.publicShowHelloWorld()); // >> Hello World!
 
 
         /*
-        === TIPOS DE DADOS E DECLARAÇÃO DE VARIÁVEIS ===
+        === PARÂMETROS E RETORNO ===
         */
 
-        String myString = "Batata";
-        char myChar = 'b';
-
-        // Multideclaração de variáveis
-        int myNumber = 10, myOtherNumber = 15;
-
-        // Atribuição de um mesmo valor a múltiplas variáveis
-        float myFloatNumber, myOtherFloatNumber;
-        myFloatNumber = myOtherFloatNumber = 2.5f;
-
-        System.out.println(myString); // >> Batata
-        System.out.println(myChar); // >> b
-
-        System.out.println(myNumber); // >> 10
-        System.out.println(myOtherNumber); // >> 15
-
-        System.out.println(myFloatNumber); // >> 2.5
-        System.out.println(myOtherFloatNumber); // >> 2.5
-
-        // NÃO é possível ter um log dessa forma!
-        System.out.println(myNumber, myOtherNumber);
+        // Chamada de método com parâmetros
+        System.out.println(sumNumbers(1, 2)); // >> 3
 
 
         /*
-        === VETORES ===
+        === ESCOPOS ===
         */
 
-        // Array de tamanho fixo
-        String[] myArray = {"Batata", "Banana", "Cenoura"};
+        sumNumbers(1, 2);
+        // Não é possível acessar essa variável
+        System.out.println(n1);
 
-        System.out.println(myArray); // >> [Ljava.lang.String;@4f3f5b24
-        System.out.println(Arrays.stream(myArray).toArray()); // >> [Batata, Banana, Cenoura]
-        System.out.println(myArray[0]); // >> Batata
-
-        // Array de tamanho variável
-        ArrayList<String> myArrayList = new ArrayList<>();
-
-        myArrayList.add("Batata");
-        myArrayList.add("Banana");
-        myArrayList.add("Cenoura");
-
-        System.out.println(myArrayList); // >> [Batata, Banana, Cenoura]
-        System.out.println(myArrayList.get(0)); // >> Batata
-
-
-        /*
-        === "OBJETOS" ===
-        */
-
-        HashMap<String, String> myHashMap = new HashMap<>();
-
-        myHashMap.put("bat", "Batata");
-        myHashMap.put("ban", "Banana");
-        myHashMap.put("cen", "Cenoura");
-
-        System.out.println(myArrayList); // >> [cen=Cenoura, bat=Batata, ban=Banana]
-        System.out.println(myHashMap.get("ban")); // >> Banana
-
-
-        /*
-        === ESTRUTURA CONDICIONAL ===
-        */
-
-        // Usando else if
-        if (myArrayList.size() == 0) {
-            System.out.println("Array vazio!");
-        } else if (myArrayList.size() != 0) {
-            System.out.println("Array NÃO vazio!");  // >> Array NÃO vazio!
+        if (sumNumbers(1, 2) == 3) {
+            int numberInsideIf = 3;
         }
+        // Não é possível acessar essa variável
+        System.out.println(numberInsideTheIf);
 
-        // Usando else
-        if (myArrayList.size() == 0) {
-            System.out.println("Array vazio!");
-        } else {
-            System.out.println("Array NÃO vazio!"); // >> Array NÃO vazio!
+        int numberOutsideTheIf = 0;
+        if (sumNumbers(1, 2) == 3) {
+            numberOutsideTheIf = 3;
         }
-
-        // Usando ternário
-        System.out.println(myArrayList.size() == 0 ? "Array vazio!" : "Array NÃO vazio!"); // >> Array NÃO vazio!
-        System.out.println(myArrayList.isEmpty() ? "Array vazio!" : "Array NÃO vazio!"); // >> Array NÃO vazio!
+        // Agora é possível acessar essa variável
+        System.out.println(numberOutsideTheIf); // >> 3
 
 
         /*
-        === ESTRUTURA DE REPETIÇÃO ===
+        === METHOD OVERLOADING ===
         */
 
-        // Percorrendo um ArrayList com for
-        for (int i = 0; i < myArrayList.size(); i++) {
-            System.out.println(myArrayList.get(i)); // >> Batata
-                                                    // >> Banana
-                                                    // >> Cenoura
-        }
+        // Chamando o segundo método sumNumbers
+        System.out.println(sumNumbers(1, 2, 3)); // >> 6
 
-        // Percorrendo um ArrayList com foreach
-        for (String item : myArrayList) {
-            System.out.println(item); // >> Batata
-                                      // >> Banana
-                                      // >> Cenoura
-        }
+        // Chamando o terceiro método sumNumbers
+        System.out.println(sumNumbers(1)); // >> 1
+
+
+        /*
+        === RECURSÃO ===
+        */
+
+        // Começará a contagem a partir do 0
+        counter(0); // >> 0
+                          // >> 1
+                          // >> 2
+                          // >> 3
+                          // >> 4
+                          // >> 5
+                          // >> 6
+                          // >> 7
+                          // >> 8
+                          // >> 9
+                          // >> 10
+                          // >> 11
+                          // >> ENCERREI!
+
+        // Começará a contagem a partir do 5
+        counter(5); // >> 5
+                          // >> 6
+                          // >> 7
+                          // >> 8
+                          // >> 9
+                          // >> 10
+                          // >> 11
+                          // >> ENCERREI!
     }
 
 }
