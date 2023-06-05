@@ -1,5 +1,7 @@
 package br.com.guilherme.learningspring.controller;
 
+import br.com.guilherme.learningspring.dto.CreateDepositDto;
+import br.com.guilherme.learningspring.dto.UserDto;
 import br.com.guilherme.learningspring.model.User;
 import br.com.guilherme.learningspring.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -18,16 +20,57 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody final User userdata) {
+    public ResponseEntity<User> createUser(@RequestBody final UserDto userdata) {
+
         final User createdUser = userService.createUser(userdata);
 
         return new ResponseEntity<User>(createdUser, HttpStatus.CREATED);
+
     }
 
     @GetMapping
     public ResponseEntity<List<User>> readUsers() {
+
         final List<User> allUsers = userService.readUsers();
 
         return new ResponseEntity<List<User>>(allUsers, HttpStatus.OK);
+
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> retrieveUser(@PathVariable final String id) throws Exception {
+
+        final User user = userService.retrieveUser(Long.parseLong(id));
+
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@RequestBody final UserDto userData, @PathVariable final String id) throws Exception {
+
+        final User updatedUser = userService.updateUser(userData, Long.parseLong(id));
+
+        return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> updateUser(@PathVariable final String id) throws Exception {
+
+       userService.deleteUser(Long.parseLong(id));
+
+       return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+
+    }
+
+    @PostMapping("/{id}/deposit")
+    public ResponseEntity<User> updateUser(@RequestBody final CreateDepositDto depositData, @PathVariable final String id) throws Exception {
+
+        final User depositedUser = userService.createDeposit(depositData, Long.parseLong(id));
+
+        return new ResponseEntity<User>(depositedUser, HttpStatus.CREATED);
+
+    }
+
 }
